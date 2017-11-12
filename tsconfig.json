@@ -1,0 +1,19 @@
+{
+	"compilerOptions": {
+		"outDir": "./dist/",
+		"noImplicitAny": true,
+		"strictNullChecks": true,
+		"module": "commonjs",
+		"target": "es6",
+		"jsx": "react",
+		"allowJs": true,
+		"experimentalDecorators": true,
+		"forceConsistentCasingInFileNames": true,
+		"newLine": "LF",
+		"noImplicitThis": true,
+		"pretty": true,
+		"strict": true
+	},
+	"include": [ "./src/**/*" ],
+	"exclude": [ "node_modules" ]
+}
