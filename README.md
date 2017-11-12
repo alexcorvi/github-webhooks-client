@@ -1,55 +1,66 @@
-node-github-hook
+Github Webhooks Receiver
 ================
 
-This is a very simple, easy to use evented web hook API for GitHub or GitLab. A command-line executable is also available.
+This is a client library for listening to GitHub Webhooks and execute a callback on them.
+
+
+> Note: This client library based on the excellent [Node Github Hook](https://github.com/nlf/node-github-hook) library.
 
 To Install:
 -----------
 ```
-npm install githubhook
+npm install github-webhooks-listener
 ```
 
 To Use:
 -------
 
-```javascript
-var githubhook = require('githubhook');
-var github = githubhook({/* options */});
+```typescript
 
-github.listen();
+import GHClient from "github-webhooks-listener";
 
-github.on('*', function (event, repo, ref, data) {
+const github = new GHClient({
+  /* options: see below */
 });
 
-github.on('event', function (repo, ref, data) {
+github.onPush((data) => {
+  console.log(data.commits.map(x => x.author)); // prints the authors of the commits
 });
-
-github.on('event:reponame', function (ref, data) {
-});
-
-github.on('event:reponame:ref', function (data) {
-});
-
-github.on('reponame', function (event, ref, data) {
-});
-
-github.on('reponame:ref', function (event, data) {
-});
-
-// GitLab system hooks
-github.on('*', function (event, type, data) {
-});
-
-github.on('type', function (event, data) {
-});
-
-// if you'd like to programmatically stop listening
-// github.stop();
 ```
 
-Where 'event' is the event name to listen to (sent by GitHub or Gitlab, typically 'push' or 'system'), 'reponame' is the name of your repo (this one is node-github-hook), 'ref' is the git reference (such as ref/heads/master), and 'type' is the type of system hook.
+## Methods and evens
 
-Configure a WebHook URL to whereever the server is listening, with a path of ```/github/callback``` and you're done!
+The library has the following methods and supports their respective events:
+
+Method | Event | GitHub Reference
+--- | --- | ---
+`listener.onCommitComment(cb)` | `commit_comment` | [Reference](https://developer.github.com/v3/activity/events/types/#commitcommentevent)
+`listener.onCreate(cb)` | `create` | [Reference](https://developer.github.com/v3/activity/events/types/#createevent)
+`listener.onDelete(cb)` | `delete` | [Reference](https://developer.github.com/v3/activity/events/types/#deleteevent)
+`listener.onDeployment(cb)` | `deployment` | [Reference](https://developer.github.com/v3/activity/events/types/#deploymentevent)
+`listener.onDeploymentStatus(cb)` | `deployment_status` | [Reference](https://developer.github.com/v3/activity/events/types/#deploymentstatusevent)
+`listener.onFork(cb)` | `fork` | [Reference](https://developer.github.com/v3/activity/events/types/#forkevent)
+`listener.onGollum(cb)` | `gollum` | [Reference](https://developer.github.com/v3/activity/events/types/#gollumevent)
+`listener.onInstallation(cb)` | `installation` | [Reference](https://developer.github.com/v3/activity/events/types/#installationevent)
+`listener.onInstallationRepository(cb)` | `installation_repository` | [Reference](https://developer.github.com/v3/activity/events/types/#installationrepositoryevent)
+`listener.onIssueComment(cb)` | `issue_comment` | [Reference](https://developer.github.com/v3/activity/events/types/#issuecommentevent)
+`listener.onIssue(cb)` | `issue` | [Reference](https://developer.github.com/v3/activity/events/types/#issueevent)
+`listener.onLabel(cb)` | `label` | [Reference](https://developer.github.com/v3/activity/events/types/#labelevent)
+`listener.onMembership(cb)` | `membership` | [Reference](https://developer.github.com/v3/activity/events/types/#membershipevent)
+`listener.onMilestone(cb)` | `milestone` | [Reference](https://developer.github.com/v3/activity/events/types/#milestoneevent)
+`listener.onOrganization(cb)` | `organization` | [Reference](https://developer.github.com/v3/activity/events/types/#organizationevent)
+`listener.onOrganizationBlock(cb)` | `organizationBlock` | [Reference](https://developer.github.com/v3/activity/events/types/#organizationblockevent)
+`listener.onPageBuild(cb)` | `page_build` | [Reference](https://developer.github.com/v3/activity/events/types/#pagebuildevent)
+`listener.onPullRequest(cb)` | `pull_request` | [Reference](https://developer.github.com/v3/activity/events/types/#pullrequestevent)
+`listener.onPullRequestReview(cb)` | `pull_request_review` | [Reference](https://developer.github.com/v3/activity/events/types/#pullrequestreviewevent)
+`listener.onPullRequestReviewComment(cb)` | `pull_request_review_comment` | [Reference](https://developer.github.com/v3/activity/events/types/#pullrequestreviewcommentevent)
+`listener.onPush(cb)` | `push` | [Reference](https://developer.github.com/v3/activity/events/types/#pushevent)
+`listener.onRelease(cb)` | `release` | [Reference](https://developer.github.com/v3/activity/events/types/#releaseevent)
+`listener.onRepository(cb)` | `repository` | [Reference](https://developer.github.com/v3/activity/events/types/#repositoryevent)
+`listener.onStatus(cb)` | `status` | [Reference](https://developer.github.com/v3/activity/events/types/#statusevent)
+`listener.onWatch(cb)` | `watch` | [Reference](https://developer.github.com/v3/activity/events/types/#watchevent)
+
+## Options
 
 Available options are:
 
@@ -64,46 +75,20 @@ Available options are:
 * **enableHealthcheck**: Respond to GET requests with a 204 response for healthcheck purposes
 * **healthcheckCode**: Override the 204 status code for healthchecks (for systems that aren't friendly with HTTP spec compliance and want a 200, for example)
 
-
-Command-line
--------------
-
-You can use the command-line client to execute a shell script when a particular
-event occurs.
-
-Install it globally:
-
-```bash
-$ npm install -g githubhook
-```
-
-Then you can run `githubhook`:
-
-```bash
-$ githubhook --help
-
-Usage:
-  githubhook [--host=HOST] [--port=PORT] [--callback=URL_PATH] [--secret=SECRET] [--verbose] <trigger> <script>
-
-Options:
-
-  --host=HOST             Address to listen on
-  --port=PORT             Port to listen on
-  --callback=URL_PATH     The callback URL path
-  --secret=SECRET         The secret you use the in the GitHub webhook config
-  --key=KEY_PATH          Path to read https certificate key file
-  --cert=CERT_PATH        Path to read https certificate file
-  --verbose               Log to console
-  --version               Output the version number
-  -h, --help              Output usage information
-```
-
-Default values for options are same as for the API (see above).
-
-Example usage:
-
-```bash
-$ githubhook push:node-github-hook ./some_script.sh
+```typescript
+new GHClient({
+	enableHealthcheck: false,
+	healthcheckCode: 200,
+	host: '0.0.0.0',
+	https: {
+		ciphers: 'something'
+	},
+	path: 'listen',
+	port: 3000,
+	secret: 'mysecretkey',
+	trustProxy: true,
+	wildcard: true
+});
 ```
 
 

@@ -1,11 +1,15 @@
 {
-	"name": "githubhook",
-	"description": "GitHub Webhook Client",
+	"name": "github-webhooks-listener",
+	"description": "A NodeJS listener (receiver) for GitHub events webhooks written in TypeScript",
 	"author": "Alex Corvi",
 	"version": "0.0.1",
 	"main": "./dist/index.js",
-	"repository": "git://github.com/nlf/node-github-hook.git",
+	"types": "./dist/index.d.ts",
+	"repository": "https://github.com/alexcorvi/github-webhooks-client.git",
 	"dependencies": {
 		"@types/node": "^8.0.51"
+	},
+	"scripts": {
+		"prepublish": "tsc"
 	}
 }

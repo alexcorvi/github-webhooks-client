@@ -1,0 +1,52 @@
+/// <reference types="node" />
+import * as Http from 'http';
+import * as Https from 'https';
+import { EventEmitter } from 'events';
+import { Configurations } from './interfaces/configuration';
+import * as payloads from './interfaces/payloads';
+declare class GitHubWebHooksClient extends EventEmitter {
+    port: number;
+    host: string;
+    secret: string;
+    path: string;
+    wildcard: boolean;
+    trustProxy: boolean;
+    enableHealthcheck: boolean;
+    healthcheckCode: number;
+    server: Https.Server | Http.Server;
+    constructor(options: Configurations);
+    onCommitComment(callback: (payload: payloads.ICommitComment) => void): void;
+    onCreate(callback: (payload: payloads.ICreate) => void): void;
+    onDelete(callback: (payload: payloads.IDelete) => void): void;
+    onDeployment(callback: (payload: payloads.IDeployment) => void): void;
+    onDeploymentStatus(callback: (payload: payloads.IDeployment_Status) => void): void;
+    onFork(callback: (payload: payloads.IForK) => void): void;
+    onGollum(callback: (payload: payloads.IGollum) => void): void;
+    onInstallation(callback: (payload: payloads.IInstallation) => void): void;
+    onInstallationRepository(callback: (payload: payloads.IInstallationRepository) => void): void;
+    onIssueComment(callback: (payload: payloads.IIssueComment) => void): void;
+    onIssue(callback: (payload: payloads.IIssue) => void): void;
+    onLabel(callback: (payload: payloads.ILabel) => void): void;
+    onMembership(callback: (payload: payloads.IMembership) => void): void;
+    onMilestone(callback: (payload: payloads.IMilestone) => void): void;
+    onOrganization(callback: (payload: payloads.IOrganization) => void): void;
+    onOrganizationBlock(callback: (payload: payloads.IOrgBlock) => void): void;
+    onPageBuild(callback: (payload: payloads.IPageBuild) => void): void;
+    onPullRequest(callback: (payload: payloads.IPullRequest) => void): void;
+    onPullRequestReview(callback: (payload: payloads.IPullRequestReview) => void): void;
+    onPullRequestReviewComment(callback: (payload: payloads.IPullRequestReviewComment) => void): void;
+    onPush(callback: (payload: payloads.IPush) => void): void;
+    onRelease(callback: (payload: payloads.IRelease) => void): void;
+    onRepository(callback: (payload: payloads.IRepository) => void): void;
+    onStatus(callback: (payload: payloads.IStatus) => void): void;
+    onWatch(callback: (payload: payloads.IWatch) => void): void;
+    _start(callback?: () => void): void;
+    _checkUrl(url: {
+        pathname: string;
+        wildcard: string;
+    }): boolean;
+    _getSecret(req: Http.Server, next: any): any;
+    _serverHandler(req: any, res: any): void;
+}
+export { GitHubWebHooksClient };
+export default GitHubWebHooksClient;

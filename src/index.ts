@@ -387,7 +387,5 @@ function parse(data: any): any {
 	return result;
 }
 
-const a = new GitHubWebHooksClient({});
-a.onIssue((data) => {
-	console.log(data.issue.title);
-});
+export { GitHubWebHooksClient };
+export default GitHubWebHooksClient;
