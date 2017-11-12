@@ -1,7 +1,7 @@
-Github Webhooks Receiver
+Github Webhooks Listener
 ================
 
-This is a client library for listening to GitHub Webhooks and execute a callback on them.
+This is a client library for listening (receiving) to GitHub Webhooks and execute a callback on them.
 
 
 > Note: This client library based on the excellent [Node Github Hook](https://github.com/nlf/node-github-hook) library.
@@ -34,31 +34,31 @@ The library has the following methods and supports their respective events:
 
 Method | Event | GitHub Reference
 --- | --- | ---
-`listener.onCommitComment(cb)` | `commit_comment` | [Reference](https://developer.github.com/v3/activity/events/types/#commitcommentevent)
-`listener.onCreate(cb)` | `create` | [Reference](https://developer.github.com/v3/activity/events/types/#createevent)
-`listener.onDelete(cb)` | `delete` | [Reference](https://developer.github.com/v3/activity/events/types/#deleteevent)
-`listener.onDeployment(cb)` | `deployment` | [Reference](https://developer.github.com/v3/activity/events/types/#deploymentevent)
-`listener.onDeploymentStatus(cb)` | `deployment_status` | [Reference](https://developer.github.com/v3/activity/events/types/#deploymentstatusevent)
-`listener.onFork(cb)` | `fork` | [Reference](https://developer.github.com/v3/activity/events/types/#forkevent)
-`listener.onGollum(cb)` | `gollum` | [Reference](https://developer.github.com/v3/activity/events/types/#gollumevent)
-`listener.onInstallation(cb)` | `installation` | [Reference](https://developer.github.com/v3/activity/events/types/#installationevent)
-`listener.onInstallationRepository(cb)` | `installation_repository` | [Reference](https://developer.github.com/v3/activity/events/types/#installationrepositoryevent)
-`listener.onIssueComment(cb)` | `issue_comment` | [Reference](https://developer.github.com/v3/activity/events/types/#issuecommentevent)
-`listener.onIssue(cb)` | `issue` | [Reference](https://developer.github.com/v3/activity/events/types/#issueevent)
-`listener.onLabel(cb)` | `label` | [Reference](https://developer.github.com/v3/activity/events/types/#labelevent)
-`listener.onMembership(cb)` | `membership` | [Reference](https://developer.github.com/v3/activity/events/types/#membershipevent)
-`listener.onMilestone(cb)` | `milestone` | [Reference](https://developer.github.com/v3/activity/events/types/#milestoneevent)
-`listener.onOrganization(cb)` | `organization` | [Reference](https://developer.github.com/v3/activity/events/types/#organizationevent)
-`listener.onOrganizationBlock(cb)` | `organizationBlock` | [Reference](https://developer.github.com/v3/activity/events/types/#organizationblockevent)
-`listener.onPageBuild(cb)` | `page_build` | [Reference](https://developer.github.com/v3/activity/events/types/#pagebuildevent)
-`listener.onPullRequest(cb)` | `pull_request` | [Reference](https://developer.github.com/v3/activity/events/types/#pullrequestevent)
-`listener.onPullRequestReview(cb)` | `pull_request_review` | [Reference](https://developer.github.com/v3/activity/events/types/#pullrequestreviewevent)
-`listener.onPullRequestReviewComment(cb)` | `pull_request_review_comment` | [Reference](https://developer.github.com/v3/activity/events/types/#pullrequestreviewcommentevent)
-`listener.onPush(cb)` | `push` | [Reference](https://developer.github.com/v3/activity/events/types/#pushevent)
-`listener.onRelease(cb)` | `release` | [Reference](https://developer.github.com/v3/activity/events/types/#releaseevent)
-`listener.onRepository(cb)` | `repository` | [Reference](https://developer.github.com/v3/activity/events/types/#repositoryevent)
-`listener.onStatus(cb)` | `status` | [Reference](https://developer.github.com/v3/activity/events/types/#statusevent)
-`listener.onWatch(cb)` | `watch` | [Reference](https://developer.github.com/v3/activity/events/types/#watchevent)
+`github.onCommitComment(cb)` | `commit_comment` | [Reference](https://developer.github.com/v3/activity/events/types/#commitcommentevent)
+`github.onCreate(cb)` | `create` | [Reference](https://developer.github.com/v3/activity/events/types/#createevent)
+`github.onDelete(cb)` | `delete` | [Reference](https://developer.github.com/v3/activity/events/types/#deleteevent)
+`github.onDeployment(cb)` | `deployment` | [Reference](https://developer.github.com/v3/activity/events/types/#deploymentevent)
+`github.onDeploymentStatus(cb)` | `deployment_status` | [Reference](https://developer.github.com/v3/activity/events/types/#deploymentstatusevent)
+`github.onFork(cb)` | `fork` | [Reference](https://developer.github.com/v3/activity/events/types/#forkevent)
+`github.onGollum(cb)` | `gollum` | [Reference](https://developer.github.com/v3/activity/events/types/#gollumevent)
+`github.onInstallation(cb)` | `installation` | [Reference](https://developer.github.com/v3/activity/events/types/#installationevent)
+`github.onInstallationRepository(cb)` | `installation_repository` | [Reference](https://developer.github.com/v3/activity/events/types/#installationrepositoryevent)
+`github.onIssueComment(cb)` | `issue_comment` | [Reference](https://developer.github.com/v3/activity/events/types/#issuecommentevent)
+`github.onIssue(cb)` | `issue` | [Reference](https://developer.github.com/v3/activity/events/types/#issueevent)
+`github.onLabel(cb)` | `label` | [Reference](https://developer.github.com/v3/activity/events/types/#labelevent)
+`github.onMembership(cb)` | `membership` | [Reference](https://developer.github.com/v3/activity/events/types/#membershipevent)
+`github.onMilestone(cb)` | `milestone` | [Reference](https://developer.github.com/v3/activity/events/types/#milestoneevent)
+`github.onOrganization(cb)` | `organization` | [Reference](https://developer.github.com/v3/activity/events/types/#organizationevent)
+`github.onOrganizationBlock(cb)` | `organizationBlock` | [Reference](https://developer.github.com/v3/activity/events/types/#organizationblockevent)
+`github.onPageBuild(cb)` | `page_build` | [Reference](https://developer.github.com/v3/activity/events/types/#pagebuildevent)
+`github.onPullRequest(cb)` | `pull_request` | [Reference](https://developer.github.com/v3/activity/events/types/#pullrequestevent)
+`github.onPullRequestReview(cb)` | `pull_request_review` | [Reference](https://developer.github.com/v3/activity/events/types/#pullrequestreviewevent)
+`github.onPullRequestReviewComment(cb)` | `pull_request_review_comment` | [Reference](https://developer.github.com/v3/activity/events/types/#pullrequestreviewcommentevent)
+`github.onPush(cb)` | `push` | [Reference](https://developer.github.com/v3/activity/events/types/#pushevent)
+`github.onRelease(cb)` | `release` | [Reference](https://developer.github.com/v3/activity/events/types/#releaseevent)
+`github.onRepository(cb)` | `repository` | [Reference](https://developer.github.com/v3/activity/events/types/#repositoryevent)
+`github.onStatus(cb)` | `status` | [Reference](https://developer.github.com/v3/activity/events/types/#statusevent)
+`github.onWatch(cb)` | `watch` | [Reference](https://developer.github.com/v3/activity/events/types/#watchevent)
 
 ## Options
 
