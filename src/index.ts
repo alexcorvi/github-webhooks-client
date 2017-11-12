@@ -55,113 +55,113 @@ class GitHubWebHooksClient extends EventEmitter {
 		this._start();
 	}
 
-	onCommitComment(callback: (payload: payloads.ICommitComment) => void) {
+	onCommitComment(callback: (payload: payloads.ICommitComment) => any) {
 		this.on('commit_comment', (repo: string, ref: string, data: payloads.ICommitComment) => callback(data));
 	}
 
-	onCreate(callback: (payload: payloads.ICreate) => void) {
+	onCreate(callback: (payload: payloads.ICreate) => any) {
 		this.on('create', (repo: string, ref: string, data: payloads.ICreate) => callback(data));
 	}
 
-	onDelete(callback: (payload: payloads.IDelete) => void) {
+	onDelete(callback: (payload: payloads.IDelete) => any) {
 		this.on('delete', (repo: string, ref: string, data: payloads.IDelete) => callback(data));
 	}
 
-	onDeployment(callback: (payload: payloads.IDeployment) => void) {
+	onDeployment(callback: (payload: payloads.IDeployment) => any) {
 		this.on('deployment', (repo: string, ref: string, data: payloads.IDeployment) => callback(data));
 	}
 
-	onDeploymentStatus(callback: (payload: payloads.IDeployment_Status) => void) {
+	onDeploymentStatus(callback: (payload: payloads.IDeployment_Status) => any) {
 		this.on('deployment_status', (repo: string, ref: string, data: payloads.IDeployment_Status) => callback(data));
 	}
 
-	onFork(callback: (payload: payloads.IForK) => void) {
+	onFork(callback: (payload: payloads.IForK) => any) {
 		this.on('fork', (repo: string, ref: string, data: payloads.IForK) => callback(data));
 	}
 
-	onGollum(callback: (payload: payloads.IGollum) => void) {
+	onGollum(callback: (payload: payloads.IGollum) => any) {
 		this.on('gollum', (repo: string, ref: string, data: payloads.IGollum) => callback(data));
 	}
 
-	onInstallation(callback: (payload: payloads.IInstallation) => void) {
+	onInstallation(callback: (payload: payloads.IInstallation) => any) {
 		this.on('installation', (repo: string, ref: string, data: payloads.IInstallation) => callback(data));
 	}
 
-	onInstallationRepository(callback: (payload: payloads.IInstallationRepository) => void) {
+	onInstallationRepository(callback: (payload: payloads.IInstallationRepository) => any) {
 		this.on('installation_repositories', (repo: string, ref: string, data: payloads.IInstallationRepository) =>
 			callback(data)
 		);
 	}
 
-	onIssueComment(callback: (payload: payloads.IIssueComment) => void) {
+	onIssueComment(callback: (payload: payloads.IIssueComment) => any) {
 		this.on('issue_comment', (repo: string, ref: string, data: payloads.IIssueComment) => callback(data));
 	}
 
-	onIssue(callback: (payload: payloads.IIssue) => void) {
+	onIssue(callback: (payload: payloads.IIssue) => any) {
 		this.on('issue', (repo: string, ref: string, data: payloads.IIssue) => callback(data));
 	}
 
-	onLabel(callback: (payload: payloads.ILabel) => void) {
+	onLabel(callback: (payload: payloads.ILabel) => any) {
 		this.on('label', (repo: string, ref: string, data: payloads.ILabel) => callback(data));
 	}
 
-	onMembership(callback: (payload: payloads.IMembership) => void) {
+	onMembership(callback: (payload: payloads.IMembership) => any) {
 		this.on('membership', (repo: string, ref: string, data: payloads.IMembership) => callback(data));
 	}
 
-	onMilestone(callback: (payload: payloads.IMilestone) => void) {
+	onMilestone(callback: (payload: payloads.IMilestone) => any) {
 		this.on('milestone', (repo: string, ref: string, data: payloads.IMilestone) => callback(data));
 	}
 
-	onOrganization(callback: (payload: payloads.IOrganization) => void) {
+	onOrganization(callback: (payload: payloads.IOrganization) => any) {
 		this.on('organization', (repo: string, ref: string, data: payloads.IOrganization) => callback(data));
 	}
 
-	onOrganizationBlock(callback: (payload: payloads.IOrgBlock) => void) {
+	onOrganizationBlock(callback: (payload: payloads.IOrgBlock) => any) {
 		this.on('org_block', (repo: string, ref: string, data: payloads.IOrgBlock) => callback(data));
 	}
 
-	onPageBuild(callback: (payload: payloads.IPageBuild) => void) {
+	onPageBuild(callback: (payload: payloads.IPageBuild) => any) {
 		this.on('page_build', (repo: string, ref: string, data: payloads.IPageBuild) => callback(data));
 	}
 
-	onPullRequest(callback: (payload: payloads.IPullRequest) => void) {
+	onPullRequest(callback: (payload: payloads.IPullRequest) => any) {
 		this.on('pull_request', (repo: string, ref: string, data: payloads.IPullRequest) => callback(data));
 	}
 
-	onPullRequestReview(callback: (payload: payloads.IPullRequestReview) => void) {
+	onPullRequestReview(callback: (payload: payloads.IPullRequestReview) => any) {
 		this.on('pull_request_review', (repo: string, ref: string, data: payloads.IPullRequestReview) =>
 			callback(data)
 		);
 	}
 
-	onPullRequestReviewComment(callback: (payload: payloads.IPullRequestReviewComment) => void) {
+	onPullRequestReviewComment(callback: (payload: payloads.IPullRequestReviewComment) => any) {
 		this.on('pull_request_review_comment', (repo: string, ref: string, data: payloads.IPullRequestReviewComment) =>
 			callback(data)
 		);
 	}
 
-	onPush(callback: (payload: payloads.IPush) => void) {
+	onPush(callback: (payload: payloads.IPush) => any) {
 		this.on('push', (repo: string, ref: string, data: payloads.IPush) => callback(data));
 	}
 
-	onRelease(callback: (payload: payloads.IRelease) => void) {
+	onRelease(callback: (payload: payloads.IRelease) => any) {
 		this.on('release', (repo: string, ref: string, data: payloads.IRelease) => callback(data));
 	}
 
-	onRepository(callback: (payload: payloads.IRepository) => void) {
+	onRepository(callback: (payload: payloads.IRepository) => any) {
 		this.on('repository', (repo: string, ref: string, data: payloads.IRepository) => callback(data));
 	}
 
-	onStatus(callback: (payload: payloads.IStatus) => void) {
+	onStatus(callback: (payload: payloads.IStatus) => any) {
 		this.on('status', (repo: string, ref: string, data: payloads.IStatus) => callback(data));
 	}
 
-	onWatch(callback: (payload: payloads.IWatch) => void) {
+	onWatch(callback: (payload: payloads.IWatch) => any) {
 		this.on('watch', (repo: string, ref: string, data: payloads.IWatch) => callback(data));
 	}
 
-	_start(callback?: () => void) {
+	_start(callback?: () => any) {
 		this.server.listen(this.port, this.host, () => {
 			console.log(Util.format('listening for hook events on %s:%d', this.host, this.port));
 			if (typeof callback === 'function') {
