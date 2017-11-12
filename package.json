@@ -2,7 +2,7 @@
 	"name": "gh-listener",
 	"description": "A NodeJS listener (receiver) for GitHub events webhooks written in TypeScript",
 	"author": "Alex Corvi",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"repository": "https://github.com/alexcorvi/github-webhooks-listener.git",
