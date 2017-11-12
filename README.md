@@ -28,7 +28,7 @@ github.onPush((data) => {
 });
 ```
 
-## Methods and evens
+## Methods and events
 
 The library has the following methods and supports their respective events:
 
