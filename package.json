@@ -1,5 +1,5 @@
 {
-	"name": "github-webhooks-listener",
+	"name": "gh-listener",
 	"description": "A NodeJS listener (receiver) for GitHub events webhooks written in TypeScript",
 	"author": "Alex Corvi",
 	"version": "0.0.1",

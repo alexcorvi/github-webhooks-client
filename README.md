@@ -9,7 +9,7 @@ This is a client library for listening (receiving) to GitHub Webhooks and execut
 To Install:
 -----------
 ```
-npm install github-webhooks-listener
+npm install gh-listener
 ```
 
 To Use:
@@ -17,7 +17,7 @@ To Use:
 
 ```typescript
 
-import GHClient from "github-webhooks-listener";
+import GHClient from "gh-listener";
 
 const github = new GHClient({
   /* options: see below */
