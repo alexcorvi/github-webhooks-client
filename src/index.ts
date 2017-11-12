@@ -6,12 +6,13 @@ import { EventEmitter } from 'events';
 import * as Util from 'util';
 import * as Crypto from 'crypto';
 import { Request } from '_debugger';
+import { Configurations } from './interfaces/configuration';
+import * as payloads from './interfaces/payloads';
 
-class Test extends EventEmitter {
+class GitHubWebHooksClient extends EventEmitter {
 	port = 3420;
 	host = '0.0.0.0';
 	secret = '';
-	logger = console;
 	path = '/github/callback';
 	wildcard = false;
 	trustProxy = false;
@@ -19,7 +20,7 @@ class Test extends EventEmitter {
 	healthcheckCode = 204;
 	server: Https.Server | Http.Server;
 
-	constructor(options: any) {
+	constructor(options: Configurations) {
 		super();
 		if (options.port) {
 			options.port = options.port;
@@ -29,9 +30,6 @@ class Test extends EventEmitter {
 		}
 		if (options.secret) {
 			options.secret = options.secret;
-		}
-		if (options.logger) {
-			options.logger = options.logger;
 		}
 		if (options.path) {
 			options.path = options.path;
@@ -49,29 +47,130 @@ class Test extends EventEmitter {
 			options.healthcheckCode = options.healthcheckCode;
 		}
 		if (options.https) {
-			this.server = Https.createServer(options.https, this.serverHandler);
+			this.server = Https.createServer(options.https, this._serverHandler.bind(this));
 		} else {
-			this.server = Http.createServer(this.serverHandler);
+			this.server = Http.createServer(this._serverHandler.bind(this));
 		}
 		EventEmitter.call(this);
+		this._start();
 	}
 
-	onRelease(callback: () => void) {
-		this.on('release', function() {
-			callback();
-		});
+	onCommitComment(callback: (payload: payloads.ICommitComment) => void) {
+		this.on('commit_comment', (repo: string, ref: string, data: payloads.ICommitComment) => callback(data));
 	}
 
-	start(callback?: () => void) {
+	onCreate(callback: (payload: payloads.ICreate) => void) {
+		this.on('create', (repo: string, ref: string, data: payloads.ICreate) => callback(data));
+	}
+
+	onDelete(callback: (payload: payloads.IDelete) => void) {
+		this.on('delete', (repo: string, ref: string, data: payloads.IDelete) => callback(data));
+	}
+
+	onDeployment(callback: (payload: payloads.IDeployment) => void) {
+		this.on('deployment', (repo: string, ref: string, data: payloads.IDeployment) => callback(data));
+	}
+
+	onDeploymentStatus(callback: (payload: payloads.IDeployment_Status) => void) {
+		this.on('deployment_status', (repo: string, ref: string, data: payloads.IDeployment_Status) => callback(data));
+	}
+
+	onFork(callback: (payload: payloads.IForK) => void) {
+		this.on('fork', (repo: string, ref: string, data: payloads.IForK) => callback(data));
+	}
+
+	onGollum(callback: (payload: payloads.IGollum) => void) {
+		this.on('gollum', (repo: string, ref: string, data: payloads.IGollum) => callback(data));
+	}
+
+	onInstallation(callback: (payload: payloads.IInstallation) => void) {
+		this.on('installation', (repo: string, ref: string, data: payloads.IInstallation) => callback(data));
+	}
+
+	onInstallationRepository(callback: (payload: payloads.IInstallationRepository) => void) {
+		this.on('installation_repositories', (repo: string, ref: string, data: payloads.IInstallationRepository) =>
+			callback(data)
+		);
+	}
+
+	onIssueComment(callback: (payload: payloads.IIssueComment) => void) {
+		this.on('issue_comment', (repo: string, ref: string, data: payloads.IIssueComment) => callback(data));
+	}
+
+	onIssue(callback: (payload: payloads.IIssue) => void) {
+		this.on('issue', (repo: string, ref: string, data: payloads.IIssue) => callback(data));
+	}
+
+	onLabel(callback: (payload: payloads.ILabel) => void) {
+		this.on('label', (repo: string, ref: string, data: payloads.ILabel) => callback(data));
+	}
+
+	onMembership(callback: (payload: payloads.IMembership) => void) {
+		this.on('membership', (repo: string, ref: string, data: payloads.IMembership) => callback(data));
+	}
+
+	onMilestone(callback: (payload: payloads.IMilestone) => void) {
+		this.on('milestone', (repo: string, ref: string, data: payloads.IMilestone) => callback(data));
+	}
+
+	onOrganization(callback: (payload: payloads.IOrganization) => void) {
+		this.on('organization', (repo: string, ref: string, data: payloads.IOrganization) => callback(data));
+	}
+
+	onOrganizationBlock(callback: (payload: payloads.IOrgBlock) => void) {
+		this.on('org_block', (repo: string, ref: string, data: payloads.IOrgBlock) => callback(data));
+	}
+
+	onPageBuild(callback: (payload: payloads.IPageBuild) => void) {
+		this.on('page_build', (repo: string, ref: string, data: payloads.IPageBuild) => callback(data));
+	}
+
+	onPullRequest(callback: (payload: payloads.IPullRequest) => void) {
+		this.on('pull_request', (repo: string, ref: string, data: payloads.IPullRequest) => callback(data));
+	}
+
+	onPullRequestReview(callback: (payload: payloads.IPullRequestReview) => void) {
+		this.on('pull_request_review', (repo: string, ref: string, data: payloads.IPullRequestReview) =>
+			callback(data)
+		);
+	}
+
+	onPullRequestReviewComment(callback: (payload: payloads.IPullRequestReviewComment) => void) {
+		this.on('pull_request_review_comment', (repo: string, ref: string, data: payloads.IPullRequestReviewComment) =>
+			callback(data)
+		);
+	}
+
+	onPush(callback: (payload: payloads.IPush) => void) {
+		this.on('push', (repo: string, ref: string, data: payloads.IPush) => callback(data));
+	}
+
+	onRelease(callback: (payload: payloads.IRelease) => void) {
+		this.on('release', (repo: string, ref: string, data: payloads.IRelease) => callback(data));
+	}
+
+	onRepository(callback: (payload: payloads.IRepository) => void) {
+		this.on('repository', (repo: string, ref: string, data: payloads.IRepository) => callback(data));
+	}
+
+	onStatus(callback: (payload: payloads.IStatus) => void) {
+		this.on('status', (repo: string, ref: string, data: payloads.IStatus) => callback(data));
+	}
+
+	onWatch(callback: (payload: payloads.IWatch) => void) {
+		this.on('watch', (repo: string, ref: string, data: payloads.IWatch) => callback(data));
+	}
+
+	_start(callback?: () => void) {
 		this.server.listen(this.port, this.host, () => {
-			this.logger.log(Util.format('listening for hook events on %s:%d', this.host, this.port));
+			console.log(Util.format('listening for hook events on %s:%d', this.host, this.port));
 			if (typeof callback === 'function') {
 				callback();
 			}
 		});
 	}
 
-	checkUrl(url: { pathname: string; wildcard: string }) {
+	_checkUrl(url: { pathname: string; wildcard: string }) {
 		if (url.pathname === this.path) {
 			return true;
 		}
@@ -81,25 +180,14 @@ class Test extends EventEmitter {
 		return false;
 	}
 
-	stop(callback?: () => void) {
-		this.server.close(() => {
-			this.logger.log('stopped listening for github events');
-			this.server = Http.createServer(this.serverHandler.bind(this));
-			if (typeof callback === 'function') {
-				callback();
-			}
-		});
-	}
-
-	getSecret(req: Http.Server, next: any) {
+	_getSecret(req: Http.Server, next: any) {
 		if (typeof this.secret === 'function') {
 			return this.secret(req, next);
 		}
 		return next(null, this.secret);
 	}
 
-	serverHandler(req: any, res: any) {
-		var self = this;
+	_serverHandler(req: any, res: any) {
 		var url = Url.parse(req.url, true);
 		var buffer: any = [];
 		var bufferLength = 0;
@@ -111,7 +199,7 @@ class Test extends EventEmitter {
 		}
 		remoteAddress = remoteAddress || req.ip || req.socket.remoteAddress || req.socket.socket.remoteAddress;
 
-		req.on('data', function(chunk: any) {
+		req.on('data', (chunk: any) => {
 			if (failed) {
 				return;
 			}
@@ -120,7 +208,7 @@ class Test extends EventEmitter {
 			bufferLength += chunk.length;
 		});
 
-		req.on('end', function(chunk: any) {
+		req.on('end', (chunk: any) => {
 			if (failed) {
 				return;
 			}
@@ -132,14 +220,14 @@ class Test extends EventEmitter {
 				bufferLength += chunk.length;
 			}
 
-			self.logger.log(Util.format('received %d bytes from %s', bufferLength, remoteAddress));
+			console.log(Util.format('received %d bytes from %s', bufferLength, remoteAddress));
 			var event =
 				req.headers['x-github-event'] ||
 				req.headers['x-gogs-event'] ||
 				req.headers['x-event-key'] ||
 				(req.headers['x-gitlab-event'] ? req.headers['x-gitlab-event'].split(' ')[0].toLowerCase() : 'unknown');
 			if (event === 'ping') {
-				self.emit(event, null, null, data);
+				this.emit(event, null, null, data);
 				return reply(200, res);
 			}
 
@@ -151,10 +239,10 @@ class Test extends EventEmitter {
 				data = Buffer.concat(buffer, bufferLength);
 			}
 
-			self.getSecret(req, function(err: any, secret: any) {
+			this._getSecret(req, (err: any, secret: any) => {
 				if (err) {
-					self.logger.error(Util.format('error getting secret for %s, returning 403', res.url));
-					self.logger.error(err.stack);
+					console.error(Util.format('error getting secret for %s, returning 403', res.url));
+					console.error(err.stack);
 					return reply(403, res);
 				}
 
@@ -162,7 +250,7 @@ class Test extends EventEmitter {
 					var signature = req.headers['x-hub-signature'];
 
 					if (!signature) {
-						self.logger.error('secret configured, but missing signature, returning 403');
+						console.error('secret configured, but missing signature, returning 403');
 						return reply(403, res);
 					}
 
@@ -170,7 +258,7 @@ class Test extends EventEmitter {
 					var digest = Crypto.createHmac('sha1', secret).update(data).digest('hex');
 
 					if (signature !== digest) {
-						self.logger.error('got invalid signature, returning 403');
+						console.error('got invalid signature, returning 403');
 						return reply(403, res);
 					}
 				}
@@ -182,7 +270,7 @@ class Test extends EventEmitter {
 
 				// invalid json
 				if (!data) {
-					self.logger.error(Util.format('received invalid data from %s, returning 400', remoteAddress));
+					console.error(Util.format('received invalid data from %s, returning 400', remoteAddress));
 					return reply(400, res);
 				}
 
@@ -192,9 +280,7 @@ class Test extends EventEmitter {
 				if (event !== 'system') {
 					// invalid json
 					if (!data.repository || !data.repository.name) {
-						self.logger.error(
-							Util.format('received incomplete data from %s, returning 400', remoteAddress)
-						);
+						console.error(Util.format('received incomplete data from %s, returning 400', remoteAddress));
 						return reply(400, res);
 					}
 
@@ -203,43 +289,41 @@ class Test extends EventEmitter {
 
 					// and now we emit a bunch of data
 					if (ref) {
-						self.logger.log(Util.format('got %s event on %s:%s from %s', event, repo, ref, remoteAddress));
+						console.log(Util.format('got %s event on %s:%s from %s', event, repo, ref, remoteAddress));
 					} else {
-						self.logger.log(Util.format('got %s event on %s from %s', event, repo, remoteAddress));
+						console.log(Util.format('got %s event on %s from %s', event, repo, remoteAddress));
 					}
-					self.emit('*', event, repo, ref, data);
-					self.emit(repo, event, ref, data);
-					self.emit(repo + ':' + ref, event, data);
-					self.emit(event, repo, ref, data);
-					self.emit(event + ':' + repo, ref, data);
-					self.emit(event + ':' + repo + ':' + ref, data);
+					this.emit('*', event, repo, ref, data);
+					this.emit(repo, event, ref, data);
+					this.emit(repo + ':' + ref, event, data);
+					this.emit(event, repo, ref, data);
+					this.emit(event + ':' + repo, ref, data);
+					this.emit(event + ':' + repo + ':' + ref, data);
 				} else {
 					var type = data.event_name;
 
 					// invalid json
 					if (!type) {
-						self.logger.error(
-							Util.format('received incomplete data from %s, returning 400', remoteAddress)
-						);
+						console.error(Util.format('received incomplete data from %s, returning 400', remoteAddress));
 						return reply(400, res);
 					}
 
-					self.logger.log(Util.format('got %s event of type %s from %s', event, type, remoteAddress));
+					console.log(Util.format('got %s event of type %s from %s', event, type, remoteAddress));
 
 					// and now we emit a bunch of data
-					self.emit('*', event, type, data);
-					self.emit(type, event, data);
+					this.emit('*', event, type, data);
+					this.emit(type, event, data);
 				}
 
 				reply(200, res);
 			});
 		});
 
-		self.logger.log(Util.format(req.method, req.url, remoteAddress));
+		console.log(Util.format(req.method, req.url, remoteAddress));
 
 		// 404 if the path is wrong
-		if (!self.checkUrl(url as any)) {
-			self.logger.error(Util.format('got invalid path from %s, returning 404', remoteAddress));
+		if (!this._checkUrl(url as any)) {
+			console.error(Util.format('got invalid path from %s, returning 404', remoteAddress));
 			failed = true;
 			return reply(404, res);
 		}
@@ -254,7 +338,7 @@ class Test extends EventEmitter {
 
 		// 405 if the method is wrong
 		if (req.method !== 'POST') {
-			self.logger.error(Util.format('got invalid method from %s, returning 405', remoteAddress));
+			console.error(Util.format('got invalid method from %s, returning 405', remoteAddress));
 			failed = true;
 			return reply(405, res);
 		}
@@ -266,7 +350,7 @@ class Test extends EventEmitter {
 			!req.headers.hasOwnProperty('x-gogs-event') &&
 			!req.headers.hasOwnProperty('x-event-key')
 		) {
-			self.logger.error(
+			console.error(
 				Util.format(
 					'missing x-github-event, x-gitlab-event, x-gogs-event, or x-event-key header from %s, returning 400',
 					remoteAddress
@@ -303,6 +387,7 @@ function parse(data: any): any {
 	return result;
 }
 
-new Test({}).onRelease(() => {
-	console.log('released');
+const a = new GitHubWebHooksClient({});
+a.onIssue((data) => {
+	console.log(data.issue.title);
 });
